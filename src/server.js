@@ -1,20 +1,20 @@
 const express = require ("express");
 const app = express();
-const database = require("./database");
+const database = require("./database/databaseMySql");
 const bodyParser = require ("body-parser")
 
 app.use (bodyParser.urlencoded({extended: true}))
 
-app.get ("/pokemons", (req, res) => {
-    res.send (database.mostrarPokemons())
+app.get ("/pokemons", async(req, res) => {
+    res.send (await database.mostrarPokemons())
 })
 
-app.get ("/pokemons/:id", (req, res) => {
-    res.send (database.mostrarPokemon(req.params.id))
+app.get ("/pokemons/:id", async (req, res) => {
+    res.send (await database.mostrarPokemon(req.params.id))
 })
 
-app.post ("/pokemons", (req, res) => {
-    const pokemon = database.salvarPokemons({
+app.post ("/pokemons", async (req, res) => {
+    const pokemon = await database.salvarPokemons({
         nome: req.body.nome,
         tipo: req.body.tipo,
         fraqueza: req.body.fraqueza,
